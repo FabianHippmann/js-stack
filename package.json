@@ -1,0 +1,57 @@
+{
+  "name": "tutorial_try1",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn dev:start",
+    "dev:start": "node_modules/.bin/nodemon -e js,jsx --ignore lib --ignore dist --exec node_modules/.bin/babel-node src/server",
+    "dev:wds": "node_modules/.bin/webpack-dev-server --progress",
+    "prod:build": "node_modules/.bin/rimraf lib dist && node_modules/.bin/babel src -d lib --ignore .test.js && node_modules/.bin/cross-env NODE_ENV=production node_modules/.bin/webpack -p --progress",
+    "prod:start": "node_modules/.bin/cross-env NODE_ENV=production node_modules/.bin/pm2 start lib/server && node_modules/.bin/pm2 logs",
+    "prod:stop": "node_modules/.bin/pm2 delete server",
+    "lint": "node_modules/.bin/eslint src webpack.config.babel.js --ext .js,.jsx",
+    "test": "yarn lint",
+    "precommit": "yarn test && yarn prod:build"
+  },
+  "browserslist": [
+    "> 1%"
+  ],
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "compression": "^1.7.0",
+    "express": "^4.15.3",
+    "isomorphic-fetch": "^2.2.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-helmet": "^5.1.3",
+    "react-hot-loader": "next",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-css-modules-transform": "^1.2.7",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.0.4",
+    "css-loader": "^0.28.4",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-compat": "^1.0.4",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "husky": "^0.14.3",
+    "nodemon": "^1.11.0",
+    "pm2": "^2.6.1",
+    "prettier-eslint": "^6.4.2",
+    "rimraf": "^2.6.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
+  }
+}
