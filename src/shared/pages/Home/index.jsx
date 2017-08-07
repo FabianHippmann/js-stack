@@ -6,6 +6,8 @@ import { firstEndpointRoute } from '../../../shared/routes';
 
 import Button from '../../components/Button';
 
+import './style.css';
+
 class Home extends Component {
   constructor(props) {
     // we can use this.props in constructor by using super

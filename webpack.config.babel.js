@@ -1,44 +1,32 @@
 import path from 'path';
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import merge from 'webpack-merge';
 
 import { WDS_PORT } from './src/shared/config';
 import { isProd } from './src/shared/util';
 
-const cssModules = isProd ? {
-  test: /\.css$/,
-  loader: ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use: {
-      loader: 'css-loader',
-      query: {
-        modules: true,
-        importLoaders: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
-      },
-    },
-  }),
-} : {
-  test: /\.css$/,
-  use: [
-    'style-loader',
-    {
-      loader: 'css-loader',
-      query: {
-        modules: true,
-        importLoaders: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
-      },
-    },
-  ],
-};
-
-export default {
-  entry: ['react-hot-loader/patch', './src/client'],
+// #1
+//
+// Universal Config
+const commonConfig = {
   output: {
     filename: 'js/bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: isProd ? '/static/' : `http://localhost:${WDS_PORT}/dist/`,
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
+  },
+  plugins: [new webpack.optimize.OccurrenceOrderPlugin(), new webpack.NoEmitOnErrorsPlugin()],
+};
+
+// #2
+//
+// Development Config
+const developmentConfig = {
+  entry: ['react-hot-loader/patch', './src/client'],
+  output: {
+    publicPath: `http://localhost:${WDS_PORT}/dist/`,
   },
   module: {
     rules: [
@@ -51,13 +39,24 @@ export default {
         },
         exclude: /node_modules/,
       },
-      cssModules,
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              importLoaders: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          'sass-loader',
+        ],
+      },
     ],
   },
-  devtool: isProd ? false : 'source-map',
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
+  devtool: 'source-map',
   devServer: {
     port: WDS_PORT,
     hot: true,
@@ -65,16 +64,39 @@ export default {
       'Access-Control-Allow-Origin': '*',
     },
   },
-  plugins: isProd ? [
-    // Production plugins
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin('css/styles.css'),
-  ] : [
+  plugins: [
     // Development plugins
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
 };
+
+// #3
+//
+// Production Config
+const productionConfig = {
+  entry: ['./src/client'],
+  output: {
+    publicPath: '/static/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  devtool: false,
+};
+
+const config = () => {
+  if (isProd) {
+    return merge(commonConfig, productionConfig);
+  }
+
+  return merge(commonConfig, developmentConfig);
+};
+
+export default config;
