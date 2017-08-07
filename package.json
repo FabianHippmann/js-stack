@@ -4,12 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn dev:start",
-    "dev:start": "node_modules/.bin/nodemon -e js,jsx --ignore lib --ignore dist --exec node_modules/.bin/babel-node src/server",
-    "dev:wds": "node_modules/.bin/webpack-dev-server --progress",
-    "prod:build": "node_modules/.bin/rimraf lib dist && node_modules/.bin/babel src -d lib --ignore .test.js && node_modules/.bin/cross-env NODE_ENV=production node_modules/.bin/webpack -p --progress",
-    "prod:start": "node_modules/.bin/cross-env NODE_ENV=production node_modules/.bin/pm2 start lib/server && node_modules/.bin/pm2 logs",
-    "prod:stop": "node_modules/.bin/pm2 delete server",
-    "lint": "node_modules/.bin/eslint src webpack.config.babel.js --ext .js,.jsx",
+    "dev:start": "nodemon -e js,jsx --ignore lib --ignore dist --exec babel-node src/server",
+    "dev:wds": "webpack-dev-server --progress",
+    "prod:build": "rimraf lib dist && babel src -d lib --ignore .test.js && cross-env NODE_ENV=production webpack -p --progress",
+    "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
+    "prod:stop": "pm2 delete server",
+    "lint": "eslint src webpack.config.babel.js --ext .js,.jsx",
     "test": "yarn lint",
     "precommit": "yarn test && yarn prod:build"
   },
