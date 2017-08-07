@@ -3,19 +3,19 @@ import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import Helmet from 'react-helmet';
 
-import { APP_NAME } from './config';
-import Nav from './components/Navigation';
+import { APP_NAME } from 'shared/config';
+import Nav from 'shared/components/Navigation';
 
 // Pages
-import Home from './pages/Home';
-import Tutorials from './pages/Tutorials';
-import NotFoundPage from './pages/NotFound';
+import Home from 'shared/pages/Home';
+import Tutorials from 'shared/pages/Tutorials';
+import NotFoundPage from 'shared/pages/NotFound';
 
 // Routes
-import { HOME_PAGE_ROUTE, TUTORIALS_PAGE_ROUTE } from './routes';
+import { HOME_PAGE_ROUTE, TUTORIALS_PAGE_ROUTE } from 'shared/routes';
 
 // global styles
-import './styles/main.scss';
+import 'shared/styles/main.scss';
 
 class App extends Component {
   render() {

@@ -1,6 +1,5 @@
+import { HOME_PAGE_ROUTE, TUTORIALS_PAGE_ROUTE, firstEndpointRoute } from 'shared/routes';
 import { homePage, tutorialsPage } from './controller';
-
-import { HOME_PAGE_ROUTE, TUTORIALS_PAGE_ROUTE, firstEndpointRoute } from '../shared/routes';
 
 import renderApp from './render-app';
 

@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 
 import { firstEndpointRoute } from 'shared/routes';
 
-import Button from '../../components/Button';
+import Button from 'shared/components/Button';
 
 import './style.css';
 
