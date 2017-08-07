@@ -21,7 +21,9 @@ const renderApp = (location, state, routerContext = {}) => {
       <head>
         ${head.title}
         ${head.meta}
-        <link rel="stylesheet" href="${STATIC_PATH}/css/styles.css">
+        <link rel="stylesheet" href="${isProd
+    ? STATIC_PATH
+    : `http://localhost:${WDS_PORT}/dist`}/css/styles.css">
       </head>
       <body>
         <div class="${APP_CONTAINER_CLASS}">${appHtml}</div>
