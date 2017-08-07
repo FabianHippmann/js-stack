@@ -5,6 +5,34 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { WDS_PORT } from './src/shared/config';
 import { isProd } from './src/shared/util';
 
+const cssModules = isProd ? {
+  test: /\.css$/,
+  loader: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: {
+      loader: 'css-loader',
+      query: {
+        modules: true,
+        importLoaders: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
+    },
+  }),
+} : {
+  test: /\.css$/,
+  use: [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      query: {
+        modules: true,
+        importLoaders: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
+    },
+  ],
+};
+
 export default {
   entry: ['react-hot-loader/patch', './src/client'],
   output: {
@@ -23,20 +51,7 @@ export default {
         },
         exclude: /node_modules/,
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            query: {
-              modules: true,
-              importLoaders: true,
-              localIdentName: '[name]__[local]___[hash:base64:5]',
-            },
-          },
-        ],
-      },
+      cssModules,
     ],
   },
   devtool: isProd ? false : 'source-map',
@@ -54,7 +69,7 @@ export default {
     // Production plugins
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin('styles.css'),
+    new ExtractTextPlugin('css/styles.css'),
   ] : [
     // Development plugins
     new webpack.optimize.OccurrenceOrderPlugin(),
