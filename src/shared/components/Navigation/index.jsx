@@ -9,7 +9,7 @@ class Navigation extends Component {
     return (
       <nav className={styles.navigation}>
 
-        <h1 className={styles.navigationLogo}><strong>xxxl</strong>digital</h1>
+        <div className={styles.navigationLogo}><strong>xxxl</strong>digital</div>
         <ul className={styles.navigationList}>
           {[
             { route: HOME_PAGE_ROUTE, label: 'Home' },

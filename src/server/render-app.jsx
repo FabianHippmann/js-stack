@@ -21,6 +21,8 @@ const renderApp = (location, state, routerContext = {}) => {
       <head>
         ${head.title}
         ${head.meta}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="${isProd
     ? STATIC_PATH
     : `http://localhost:${WDS_PORT}/dist`}/css/styles.css">
