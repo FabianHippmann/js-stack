@@ -5,8 +5,9 @@ import Helmet from 'react-helmet';
 import { firstEndpointRoute } from 'shared/routes';
 
 import Button from 'shared/components/Button';
+import Header from 'shared/components/Header';
 
-import './style.css';
+import main from '../../styles/main.scss';
 
 class Home extends Component {
   constructor(props) {
@@ -65,9 +66,13 @@ class Home extends Component {
     return (
       <div>
         <Helmet title={'Home'} meta={[{ name: 'description', content: 'Home Page description' }]} />
-        <h1>Home</h1>
-        <Button text={this.state.buttonText} onButtonClick={this.clickHandler} />
-        <Button text={this.state.buttonTextAsync} onButtonClick={this.clickHandlerAsync} />
+        <Header text="Home" />
+        <div className={main.container}>
+          <div className={main.row}>
+            <Button text={this.state.buttonText} onButtonClick={this.clickHandler} />
+            <Button text={this.state.buttonTextAsync} onButtonClick={this.clickHandlerAsync} />
+          </div>
+        </div>
       </div>
     );
   }

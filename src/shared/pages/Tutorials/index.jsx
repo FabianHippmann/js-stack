@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
+import Header from 'shared/components/Header';
+import main from '../../styles/main.scss';
 
 class Tutorials extends Component {
   render() {
@@ -9,7 +11,8 @@ class Tutorials extends Component {
           title={'Tutorials'}
           meta={[{ name: 'description', content: 'Tutorial Page description' }]}
         />
-        <p>Tutorial List here</p>
+        <Header text="Tutorials" />
+        <div className={main.container} />
       </div>
     );
   }
