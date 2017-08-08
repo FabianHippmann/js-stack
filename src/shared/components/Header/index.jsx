@@ -14,7 +14,7 @@ class Header extends Component {
   }
 }
 Header.propTypes = {
-  text: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default Header;
