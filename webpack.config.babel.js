@@ -2,8 +2,6 @@ import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-
 import { WDS_PORT } from './src/shared/config';
 import { isProd } from './src/shared/util';
 
@@ -16,7 +14,7 @@ const commonConfig = {
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.css'],
+    extensions: ['.js', '.jsx'],
     modules: [path.join(__dirname, 'src'), 'node_modules'],
   },
   plugins: [new webpack.optimize.OccurrenceOrderPlugin(), new webpack.NoEmitOnErrorsPlugin()],
@@ -86,33 +84,11 @@ const productionConfig = {
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
-        query: {
-          presets: ['env', 'react'],
-          babelrc: false,
-        },
         exclude: /node_modules/,
-      },
-      {
-        test: /\.(scss|css)$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                importLoaders: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-              },
-            },
-            'sass-loader',
-          ],
-        }),
       },
     ],
   },
   devtool: false,
-  plugins: [new ExtractTextPlugin('css/styles.css')],
 };
 
 const config = () => {
